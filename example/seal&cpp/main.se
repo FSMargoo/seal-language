@@ -1,0 +1,8 @@
+@from std
+
+fn main() {
+    @cpp cbegin
+        printf("Hello World!");
+    cend;
+    return 0;
+}

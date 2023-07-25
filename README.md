@@ -86,7 +86,17 @@ return 0;
 Then the C++ code will be compiled by C++ compiler like clang, then out the result.
 
 ## Why Seal
-Seal likes a wrapper to C++ language, or the higher level of a Marco? If you want a C++ code result and have a simpler(May not very simple) code experience, you can try Seal, seal may leave a good exprenicen when you writing a small project.
+Seal likes a wrapper to C++ language, or the higher level of a Marco? If you want a C++ code result and have a simpler(May not very simple) code experience, you can try Seal, seal may leave a good exprenicen when you writing a small project, and you can include your cpp code in seal as well, just like this:
+```
+@from std
+
+fn main() {
+    @cpp cbegin
+        printf("Hello World!");
+    cend;
+    return 0;
+}
+```
 
 ## Example
 All of the seal language example are all collect in the example folder.
