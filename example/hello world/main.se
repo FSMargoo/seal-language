@@ -1,0 +1,10 @@
+@from std
+
+fn main() -> var:int {
+    var output_string = string("Hello World");
+    foreach (ch in output_string) {
+        std.io.print(ch);
+    }
+
+    return 0;
+}

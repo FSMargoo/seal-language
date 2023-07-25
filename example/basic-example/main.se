@@ -1,0 +1,69 @@
+/*
+ * main.se:
+ *  @description : This file will intrudouce some basic points in seal
+*/
+
+// Use the @from statement to use a package
+@from std
+
+// In seal, define a function with 'fn' keyword
+fn function1() /* The return value is optional, but not always*/  {
+    // If you don't specified the return type, compiler will decided instead.
+
+    // However, one function have only a unique return type, that means you can return a string in one return statement
+    // and return a number in one return statement in same function.
+    return "Hello World";
+}
+
+// This function specifed the return value
+fn function2(var:int agrument) -> var:int {
+    if (agrument >= 0) {
+        return std.math.pow(agrument, 3);
+    }
+    else {
+        return std.math.pow(agrument, 4);
+    }
+}
+
+// interface is a way to define a list of function interface
+// it can be inherf by class with "interface" keyword
+interface interface_example {
+    // The function in interface should speicifed a return type
+    fn interface_method() -> var:int {
+        return 0;
+    }
+    // The function in interface can also be empty
+    fn override_needed_function() -> var:void;
+}
+
+// class can inherf the interface by interface class
+class my_class <- interface interface_example {
+    // The constructor of a class
+    @public
+    my_class() {
+        std.io.print("Created my_class instance!\n");
+    }
+
+    @override
+    fn override_needed_function() -> var:void {
+        std.io.print("You called the override needed function!\n");
+    }
+}
+
+// The main function should specified the return type
+fn main() -> var:int {
+    // Use var to create a variable
+    var instance = my_class();
+
+    foreach (i in 0 to 4) {
+        std.io.print(i, "\n");
+
+        instance.override_needed_function();
+    }
+
+    // Use ptr to create the pointer
+    ptr:interface_example abstract = &instance;
+    abstract->override_needed_function();
+
+    return 0;
+}

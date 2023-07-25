@@ -1,0 +1,89 @@
+/*
+ * 源代码来自：https://codebus.cn/hxd2002/heartline
+*/
+@from std
+
+/****************
+ * let 为定值  ptr 为指针
+ * ref 为引用  var 为变量
+****************/
+let width       = 640;
+let height      = 480;
+let half_width  = width / 2;
+let half_height = height / 2;
+let display     = 3;
+let arrow       = 5;
+let copies      = 600;
+let seconds     = 5;
+
+fn draw_coordinate_axis() {
+    setlinecolor(DARKGRAY);
+
+    line(width / 2, height / 10, width / 2, height / 10 * 9);
+	line(width / 2, height / 10, width / 2 + arrow, height / 10 + arrow);
+	line(width / 2, height / 10, width / 2 - arrow, height / 10 + arrow);
+	line(width / 5, height / 2, width / 5 * 4, height / 2);
+	line(width / 5 * 4, height / 2, width / 5 * 4 - arrow, height / 2 - arrow);
+	line(width / 5 * 4, height / 2, width / 5 * 4 - arrow, height / 2 + arrow);
+}
+
+// main 必须指定返回类型
+fn main() -> var:int {
+    initgraph(width, height);
+    var radius = std.min(width, height) / 9;
+    var last_x = width / 2.0;
+    var last_y = height / 2.0 - radius;
+    
+    BeginBatchDraw();
+    setlinecolor(BLUE);
+
+    circle(half_width, half_height, radius);
+
+    draw_coordinate_axis();
+    setrop2(R2_XORPEN);
+
+    var:double a = 0;
+    while (true) {
+        var x               = std.math.cos(3.0 / 2.0 * std.math.pi + a) * 2 * radius + half_width;
+        var y               = std.math.sin(3.0 / 2.0 * std.math.pi + a) * 2 * radius + half_height;
+        var fixed_point_x   = std.math.cos(std.math.pi / 2.0 + a * 2) * radius + x;
+        var fixed_point_y   = std.math.sin(std.math.pi / 2.0 + a * 2) * radius + y;
+        var contact_x       = std.math.cos(std.math.pi / 2.0 + a) * radius + x;
+        var contact_y       = std.math.cos(std.math.pi / 2.0 + a) * radius + y;
+
+        setrop2(R2_COPYPEN);
+        setlinecolor(YELLOW);
+        line(last_x, last_y, fixed_point_x, fixed_point_y);
+        setrop2(R2_XORPEN);
+
+        // 使用 @cpp 插入 C++ 代码
+        @cpp cbegin
+            last_x = fixed_point_x;
+            last_y = fixed_point_y;
+            
+            setfillcolor(GREEN);
+            solidcircle(contact_x, contact_y, display);
+            setfillcolor(LIGHTRED);
+            solidcircle(last_x, last_y, display);
+
+            setlinecolor(BLUE);
+            circle(x, y, radius);
+
+            FlushBatchDraw();
+            Sleep((double)(1000 * seconds) / (double)copies + 0.5);
+
+            setlinecolor(BLUE);
+            circle(x, y, radius);
+
+            setfillcolor(GREEN);
+            solidcircle(contact_x, contact_y, display);
+
+            setfillcolor(LIGHTRED);
+            solidcircle(last_x, last_y, display);
+        cend;
+
+        a += std.math.pi / copies * 2;
+    }
+
+    return 0;
+}

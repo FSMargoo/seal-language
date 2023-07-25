@@ -1,0 +1,38 @@
+@from std
+
+class abc {
+
+}
+class bcd {
+
+}
+interface myff {
+    fn uvuvuv();
+    fn tester() {
+        return 0;
+    }
+}
+
+fn test() -> var:int {
+    var:int abc;
+}
+fn test2() {
+
+}
+
+class inherf <- public myff {
+    @public @override
+    fn tester() {
+        
+    }
+}
+
+fn main() -> var:int {
+    var:int abbb;    
+
+    std.io.input(input);
+    
+    foreach (ch in input) { 
+        std.io.print(ch, "\n");
+    }
+}
